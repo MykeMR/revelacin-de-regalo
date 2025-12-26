@@ -1,40 +1,33 @@
 # Planning Guide
 
-An elegant digital gift reveal experience that unveils a spa day voucher for Día de Reyes (Three Kings Day) with sophisticated animations and interactive elements.
+An elegant digital gift reveal experience that unveils a spa day voucher for Día de Reyes (Three Kings Day) through an interactive scroll/pergamino that unfolds as the user scrolls down.
 
 **Experience Qualities**:
-1. **Magical** - Creates anticipation and wonder through smooth reveal animations and golden particle effects
-2. **Elegant** - Sophisticated typography and warm color palette evoke luxury spa experience
+1. **Magical** - Creates anticipation and wonder through scroll-based reveal animations that mimic unfolding a physical scroll
+2. **Elegant** - Sophisticated typography and warm color palette evoke luxury spa experience with parchment aesthetics
 3. **Personal** - Intimate gift presentation with personalized messaging and shareable features
 
 **Complexity Level**: Light Application (multiple features with basic state)
-- Combines multiple interactive states (welcome screen, reveal, countdown) with localStorage persistence for music preferences and animation states
+- Combines scroll-based progressive reveal with localStorage persistence for music preferences and interactive particle animations
 
 ## Essential Features
 
 ### Welcome Screen
-- **Functionality**: Landing view with animated title and CTA button
+- **Functionality**: Landing view with animated scroll icon and CTA button
 - **Purpose**: Build anticipation before the gift reveal
 - **Trigger**: Page load
-- **Progression**: Fade in title → Pulse crown icon → Button appears → User clicks
+- **Progression**: Fade in title → Pulse scroll icon → Button appears → User clicks
 - **Success criteria**: Smooth animations, clear call-to-action, mobile responsive
 
-### Gift Reveal Animation
-- **Functionality**: Transitions from welcome to scroll unfurling with gift details
-- **Purpose**: Create magical moment of discovery
-- **Trigger**: Click "Descubrir Regalo" button
-- **Progression**: Fade out welcome → Scroll unfurls from top → Content fades in → Background particles activate
-- **Success criteria**: Smooth 60fps animation, proper timing, no jank on mobile
-
-### Countdown Timer
-- **Functionality**: Real-time countdown to voucher expiration date
-- **Purpose**: Create urgency and show validity period
-- **Trigger**: Automatically starts on reveal
-- **Progression**: Calculate time remaining → Update every second → Display days/hours/minutes
-- **Success criteria**: Accurate calculations, proper formatting, handles expired state
+### Scroll-Based Pergamino Reveal
+- **Functionality**: As user scrolls down, the content of the pergamino is progressively revealed in sections
+- **Purpose**: Create immersive, tactile experience that mimics unrolling a physical scroll
+- **Trigger**: User scrolls after clicking "Abrir Pergamino"
+- **Progression**: Welcome fades → Scroll container appears → User scrolls → Content reveals in stages (recipient name → greeting → gift title → gift details) → Top and bottom rods animate out
+- **Success criteria**: Smooth 60fps scroll tracking, proper content staging, natural parchment feel, no jank on mobile
 
 ### Download Voucher
-- **Functionality**: Downloads high-resolution image of the scroll
+- **Functionality**: Downloads high-resolution image of the complete scroll
 - **Purpose**: Allow user to save and print the gift
 - **Trigger**: Click "Descargar Vale" button
 - **Progression**: User clicks → Canvas generates high-res image → Browser downloads file
@@ -57,22 +50,22 @@ An elegant digital gift reveal experience that unveils a spa day voucher for Dí
 ### Floating Particles
 - **Functionality**: Subtle golden particles floating across screen
 - **Purpose**: Add luxury aesthetic and depth
-- **Trigger**: Activates after reveal
+- **Trigger**: Activates after starting scroll experience
 - **Progression**: Particles spawn → Float upward with random paths → Loop infinitely
 - **Success criteria**: Smooth 60fps animation, not distracting, performant on mobile
 
 ## Edge Case Handling
 
-- **Expired Voucher**: Display elegant "Voucher Expired" message with golden styling
+- **No Scroll Support**: Fallback to show all content at once on devices without smooth scrolling
 - **No Image Load**: Show placeholder scroll background with all text content intact
 - **Audio Block**: Music toggle shows but handles browser autoplay restrictions gracefully
 - **Slow Connection**: Progressive loading with skeleton states, core content prioritized
-- **Small Screens**: Touch-friendly buttons (min 44px), readable text, proper spacing
+- **Small Screens**: Touch-friendly buttons (min 44px), readable text, proper spacing, adjusted scroll triggers
 - **Browser Compatibility**: Fallback for browsers without backdrop-filter or modern CSS
 
 ## Design Direction
 
-The design should evoke the warmth and luxury of a spa experience combined with the magic of Three Kings Day. Golden tones suggest precious gifts, while parchment textures create an old-world, timeless quality. Animations should feel gentle and refined - never rushed or jarring - like slowly unwrapping a precious gift.
+The design should evoke the experience of receiving and unrolling an ancient pergamino from the Three Kings. The scroll metaphor creates a tangible, physical connection to the digital gift. Golden tones suggest precious gifts, while parchment textures and scroll mechanics create an old-world, timeless quality. The scroll-based reveal should feel natural and intuitive - like slowly unrolling precious ancient document.
 
 ## Color Selection
 
@@ -104,36 +97,42 @@ Typography should feel elegant and timeless, evoking handwritten invitations and
 
 ## Animations
 
-Animations should feel luxurious and deliberate, enhancing the gift-giving experience without overwhelming.
+Animations should feel luxurious and deliberate, with the primary focus on scroll-based progressive reveal that mimics unrolling a physical pergamino.
 
-- **Crown Icon**: Gentle pulse (scale 1.0 to 1.1) with 2s duration - creates breathing, magical effect
+- **Scroll Icon**: Gentle pulse (scale 1.0 to 1.15) with 3s duration - invites interaction and creates magical effect
 - **Welcome Fade**: 800ms fade-in with slight scale (0.95 to 1.0) - elegant entrance
-- **Scroll Unfurl**: 1200ms height expansion from top with cubic-bezier easing - mimics real scroll unrolling
-- **Particle Float**: Random duration 4-7s, slight horizontal drift, opacity fade 1 to 0 - subtle luxury
+- **Scroll Rods**: Top rod animates up (translateY -100px) at start of scroll, bottom rod animates down (translateY 100px) at end of scroll - mimics scroll rolling away
+- **Content Progressive Reveal**: Four opacity transforms tied to scroll position:
+  - 0-15%: Recipient name fades in
+  - 15-35%: Greeting appears
+  - 35-55%: Gift title reveals
+  - 55-80%: Full details and actions become visible
+- **Particle Float**: Random duration 6-10s, slight horizontal drift, opacity fade 1 to 0 - subtle luxury backdrop
 - **Button Hover**: 200ms scale (1.0 to 1.05) with shadow increase - satisfying tactile feedback
-- **Content Reveal**: Staggered fade-in (100ms delays) for text blocks - guides reading flow
+- **Sticky Scroll Container**: Pergamino stays centered on screen as user scrolls through virtual 400vh height
 
 ## Component Selection
 
 - **Components**: 
   - Button (primary CTA) - Large, rounded, shadow with hover lift effect
-  - Card (scroll container) - Parchment texture, torn edges via CSS, drop shadow for depth
-  - Dialog (for expired state) - Centered overlay with backdrop blur
-  - Progress (countdown bars) - Linear bars showing time remaining visually
+  - Scroll container with sticky positioning - Creates pergamino unrolling effect
+  - Framer Motion scroll tracking - useScroll and useTransform for smooth reveal
   - Toggle (music control) - Fixed position with icon swap animation
   
 - **Customizations**: 
-  - Custom scroll shape using border-radius and box-shadow for parchment effect
-  - Canvas-based particle system for golden floating elements
-  - SVG crown icon with animated paths
-  - Custom countdown component with gradient backgrounds
+  - Custom scroll container with decorative rods at top/bottom that animate away during scroll
+  - Parchment-style card with gradient overlays and border styling
+  - SVG scroll icon with animated rotation
+  - Particle system using absolute positioning with framer-motion animations
   
 - **States**: 
-  - Button: Default (elevated shadow) → Hover (lifted, brighter) → Active (pressed down) → Disabled (muted)
+  - Button: Default (elevated shadow) → Hover (lifted, brighter) → Active (pressed down)
   - Music Toggle: Off (muted icon, grayscale) → On (unmuted icon, gold accent)
-  - Scroll: Hidden (scale 0, opacity 0) → Revealing (height animate) → Visible (full size)
+  - Scroll Content: Hidden (opacity 0) → Revealing (progressive opacity) → Visible (opacity 1)
+  - Scroll Rods: Attached (visible) → Rolling away (translateY animation) → Gone (off screen)
   
 - **Icon Selection**: 
+  - Scroll (Phosphor Scroll) - Represents pergamino/document
   - Crown (Phosphor Crown) - Represents Three Kings
   - Download (Phosphor DownloadSimple) - Clear download action
   - Share (Phosphor ShareNetwork) - WhatsApp sharing
@@ -141,15 +140,16 @@ Animations should feel luxurious and deliberate, enhancing the gift-giving exper
   - Sparkle (Phosphor Sparkle) - Decorative magical elements
   
 - **Spacing**: 
-  - Container padding: 2rem (mobile) / 3rem (tablet) / 4rem (desktop)
-  - Section gaps: 3rem vertical rhythm
-  - Button padding: 1rem horizontal, 0.75rem vertical
+  - Container padding: 2rem (mobile) / 3rem (desktop)
+  - Scroll content vertical rhythm: 3rem between sections
+  - Button padding: 1.5rem horizontal, 1rem vertical
   - Text line-height: 1.6 for body, 1.2 for headings
   
 - **Mobile**: 
-  - Stack all elements vertically on mobile (<768px)
+  - Full-height scroll experience maintained on mobile
+  - Adjusted scroll trigger percentages for smaller screens
   - Increase touch targets to minimum 44x44px
   - Reduce font sizes proportionally (H1: 36px on mobile)
-  - Full-width buttons with fixed positioning for primary actions
-  - Reduce particle count on mobile for performance
-  - Simplify animations (shorter durations, less complex easing)
+  - Full-width buttons stacked vertically
+  - Reduce particle count (15 vs 30) for performance
+  - Hide scrollbar for cleaner visual experience
