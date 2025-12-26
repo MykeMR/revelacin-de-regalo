@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
+import backgroundMusic from '@/assets/audio/christmas-dreams-jingle-bells-268299.mp3'
 
 interface Particle {
   id: number
@@ -19,6 +20,7 @@ function App() {
   const [musicEnabled, setMusicEnabled] = useKV<boolean>('music-enabled', false)
   const [particles, setParticles] = useState<Particle[]>([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
+    const audioRef = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
     if (isStarted) {
@@ -40,6 +42,13 @@ function App() {
 
   const toggleMusic = () => {
     setMusicEnabled(enabled => !enabled)
+        if (audioRef.current) {
+      if (musicEnabled) {
+        audioRef.current.pause()
+      } else {
+        audioRef.current.play().catch(() => {})
+      }
+    }
   }
 
   const startExperience = () => {
@@ -485,6 +494,13 @@ function App() {
         </>
       )}
     </div>
+
+          <audio
+        ref={audioRef}
+        src={backgroundMusic}
+        loop
+        volume={0.3}
+      />
   )
 }
 
