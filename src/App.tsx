@@ -493,15 +493,14 @@ function App() {
           </motion.button>
         </>
       )}
+
+              <audio
+          ref={audioRef}
+          src={backgroundMusic}
+          loop
+        />
     </div>
 
-          <audio
-        ref={audioRef}
-        src={backgroundMusic}
-        loop
-        volume={0.3}
-      />
-  )
 }
 
 export default App
