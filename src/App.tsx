@@ -494,13 +494,13 @@ function App() {
         </>
       )}
 
-              <audio
-          ref={audioRef}
-          src={backgroundMusic}
-          loop
-        />
+      <audio
+        ref={audioRef}
+        src={backgroundMusic}
+        loop
+      />
     </div>
+  )
+}
 
-  })
-  }
 export default App
