@@ -19,9 +19,10 @@ function App() {
   const [particles, setParticles] = useState<Particle[]>([])
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [scrollContainer, setScrollContainer] = useState<HTMLDivElement | null>(null)
   
   const { scrollYProgress } = useScroll({
-    container: scrollContainerRef
+    container: scrollContainer ? { current: scrollContainer } : undefined
   })
 
   const topRodY = useTransform(scrollYProgress, [0, 0.1], [0, -100])
@@ -223,7 +224,10 @@ function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
-            ref={scrollContainerRef}
+            ref={(el) => {
+              scrollContainerRef.current = el
+              setScrollContainer(el)
+            }}
             className="h-screen overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
             style={{
               scrollbarWidth: 'none',
