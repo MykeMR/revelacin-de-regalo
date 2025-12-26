@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Crown, DownloadSimple, ShareNetwork, SpeakerHigh, SpeakerSlash, Sparkle, Scroll, ArrowLeft } from '@phosphor-icons/react'
+import { Crown, DownloadSimple, ShareNetwork, SpeakerHigh, SpeakerSlash, Sparkle, Scroll, ArrowLeft, ArrowRight, ArrowsClockwise } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { useKV } from '@github/spark/hooks'
@@ -44,20 +44,21 @@ function App() {
 
   const startExperience = () => {
     setIsStarted(true)
-    setTimeout(() => setRevealStep(1), 500)
-    setTimeout(() => setRevealStep(2), 3500)
-    setTimeout(() => setRevealStep(3), 6000)
-    setTimeout(() => setRevealStep(4), 9000)
-    setTimeout(() => setRevealStep(5), 12000)
-    setTimeout(() => setRevealStep(6), 15000)
+    setRevealStep(1)
   }
 
   const goBack = () => {
-    if (revealStep > 0) {
+    if (revealStep > 1) {
       setRevealStep(prev => prev - 1)
-    } else if (isStarted) {
+    } else if (revealStep === 1) {
       setIsStarted(false)
       setRevealStep(0)
+    }
+  }
+
+  const goForward = () => {
+    if (revealStep < 6) {
+      setRevealStep(prev => prev + 1)
     }
   }
 
@@ -115,8 +116,8 @@ function App() {
       'tratamiento profesional que te ayudará a revitalizar',
       'y fortalecer tu melena.',
       '',
-      'Los Reyes se han dado cuenta de que tienes un problema de calvicie',
-      'y te queda poco para quedarte calva...',
+      'Los Reyes se han dado cuenta de que tienes un desafío capilar',
+      'que requiere atención especial y profesional.',
       '',
       'Por eso, disfruta de un tratamiento exclusivo "Reset Capilar" by',
       'L\'Oreal Professionnel® que incluye:',
@@ -360,7 +361,7 @@ function App() {
                       >
                         <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl p-6 md:p-8 border border-accent/30">
                           <p className="text-xl md:text-2xl text-card-foreground leading-relaxed mb-6">
-                            Por eso, disfruta de un tratamiento exclusivo{' '}
+                            Disfruta de un tratamiento exclusivo{' '}
                             <span className="font-bold text-primary">"Reset Capilar"</span> by{' '}
                             <span className="italic text-accent">L'Oreal Professionnel®</span> que incluye:
                           </p>
@@ -456,9 +457,31 @@ function App() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2, duration: 0.4 }}
             onClick={goBack}
-            className="fixed bottom-8 left-8 w-16 h-16 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-primary-foreground/20"
+            disabled={revealStep === 1 && isStarted}
+            className="fixed bottom-8 left-8 w-16 h-16 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-primary-foreground/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             <ArrowLeft size={28} weight="bold" />
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.4, duration: 0.4 }}
+            onClick={goForward}
+            disabled={revealStep === 6}
+            className="fixed bottom-8 left-28 w-16 h-16 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-primary-foreground/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          >
+            <ArrowRight size={28} weight="bold" />
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.6, duration: 0.4 }}
+            onClick={resetExperience}
+            className="fixed top-8 right-8 w-16 h-16 rounded-full bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-secondary-foreground/20"
+          >
+            <ArrowsClockwise size={28} weight="bold" />
           </motion.button>
         </>
       )}
