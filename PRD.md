@@ -1,14 +1,14 @@
 # Planning Guide
 
-An elegant digital gift reveal experience that unveils a spa day voucher for Día de Reyes (Three Kings Day) through an interactive scroll/pergamino that unfolds as the user scrolls down.
+An elegant digital gift reveal experience that unveils a spa day voucher for Día de Reyes (Three Kings Day) through sequential timed animations that progressively reveal the gift message.
 
 **Experience Qualities**:
-1. **Magical** - Creates anticipation and wonder through scroll-based reveal animations that mimic unfolding a physical scroll
+1. **Magical** - Creates anticipation and wonder through timed sequential reveal animations that build excitement
 2. **Elegant** - Sophisticated typography and warm color palette evoke luxury spa experience with parchment aesthetics
 3. **Personal** - Intimate gift presentation with personalized messaging and shareable features
 
 **Complexity Level**: Light Application (multiple features with basic state)
-- Combines scroll-based progressive reveal with localStorage persistence for music preferences and interactive particle animations
+- Combines timed sequential reveal animations with localStorage persistence for music preferences and interactive particle animations
 
 ## Essential Features
 
@@ -19,12 +19,12 @@ An elegant digital gift reveal experience that unveils a spa day voucher for Dí
 - **Progression**: Fade in title → Pulse scroll icon → Button appears → User clicks
 - **Success criteria**: Smooth animations, clear call-to-action, mobile responsive
 
-### Scroll-Based Pergamino Reveal
-- **Functionality**: As user scrolls down, the content of the pergamino is progressively revealed in sections
-- **Purpose**: Create immersive, tactile experience that mimics unrolling a physical scroll
-- **Trigger**: User scrolls after clicking "Abrir Pergamino"
-- **Progression**: Welcome fades → Scroll container appears → User scrolls → Content reveals in stages (recipient name → greeting → gift title → gift details) → Top and bottom rods animate out
-- **Success criteria**: Smooth 60fps scroll tracking, proper content staging, natural parchment feel, no jank on mobile
+### Sequential Timed Reveal
+- **Functionality**: After clicking start button, content reveals automatically in four timed stages
+- **Purpose**: Create immersive experience that builds anticipation and focuses attention on each message
+- **Trigger**: User clicks "Abrir Pergamino"
+- **Progression**: Welcome fades → Step 1: Recipient name (3s display) → Step 2: Greeting (3.5s display) → Step 3: Gift title (3.5s display) → Step 4: Full details with action buttons (remains visible)
+- **Success criteria**: Smooth fade transitions, proper timing that allows reading, natural pacing that feels deliberate not rushed
 
 ### Download Voucher
 - **Functionality**: Downloads high-resolution image of the complete scroll
@@ -56,16 +56,16 @@ An elegant digital gift reveal experience that unveils a spa day voucher for Dí
 
 ## Edge Case Handling
 
-- **No Scroll Support**: Fallback to show all content at once on devices without smooth scrolling
+- **Impatient Users**: No skip functionality - experience must play through at designed pace to maintain magic
 - **No Image Load**: Show placeholder scroll background with all text content intact
 - **Audio Block**: Music toggle shows but handles browser autoplay restrictions gracefully
 - **Slow Connection**: Progressive loading with skeleton states, core content prioritized
-- **Small Screens**: Touch-friendly buttons (min 44px), readable text, proper spacing, adjusted scroll triggers
+- **Small Screens**: Touch-friendly buttons (min 44px), readable text, proper spacing
 - **Browser Compatibility**: Fallback for browsers without backdrop-filter or modern CSS
 
 ## Design Direction
 
-The design should evoke the experience of receiving and unrolling an ancient pergamino from the Three Kings. The scroll metaphor creates a tangible, physical connection to the digital gift. Golden tones suggest precious gifts, while parchment textures and scroll mechanics create an old-world, timeless quality. The scroll-based reveal should feel natural and intuitive - like slowly unrolling precious ancient document.
+The design should evoke the experience of receiving a precious gift announcement from the Three Kings. The timed sequential reveal creates anticipation and focuses attention on each element of the message. Golden tones suggest precious gifts, while parchment textures create an old-world, timeless quality. The reveal should feel like a magical ceremony unfolding before the recipient's eyes.
 
 ## Color Selection
 
@@ -97,39 +97,36 @@ Typography should feel elegant and timeless, evoking handwritten invitations and
 
 ## Animations
 
-Animations should feel luxurious and deliberate, with the primary focus on scroll-based progressive reveal that mimics unrolling a physical pergamino.
+Animations should feel luxurious and deliberate, with the primary focus on timed sequential reveals that automatically progress through the gift message stages.
 
 - **Scroll Icon**: Gentle pulse (scale 1.0 to 1.15) with 3s duration - invites interaction and creates magical effect
 - **Welcome Fade**: 800ms fade-in with slight scale (0.95 to 1.0) - elegant entrance
-- **Scroll Rods**: Top rod animates up (translateY -100px) at start of scroll, bottom rod animates down (translateY 100px) at end of scroll - mimics scroll rolling away
-- **Content Progressive Reveal**: Four opacity transforms tied to scroll position:
-  - 0-15%: Recipient name fades in
-  - 15-35%: Greeting appears
-  - 35-55%: Gift title reveals
-  - 55-80%: Full details and actions become visible
+- **Sequential Reveals**: Four timed stages with crossfade transitions (1s duration each):
+  - Stage 1 (0.5s delay): Recipient name fades in, displays for 3s, fades out
+  - Stage 2 (3.5s delay): Greeting appears, displays for 3.5s, fades out
+  - Stage 3 (7s delay): Gift title reveals with slight scale effect, displays for 3.5s, fades out
+  - Stage 4 (10.5s delay): Full details fade in and remain visible with action buttons
 - **Particle Float**: Random duration 6-10s, slight horizontal drift, opacity fade 1 to 0 - subtle luxury backdrop
 - **Button Hover**: 200ms scale (1.0 to 1.05) with shadow increase - satisfying tactile feedback
-- **Sticky Scroll Container**: Pergamino stays centered on screen as user scrolls through virtual 400vh height
 
 ## Component Selection
 
 - **Components**: 
   - Button (primary CTA) - Large, rounded, shadow with hover lift effect
-  - Scroll container with sticky positioning - Creates pergamino unrolling effect
-  - Framer Motion scroll tracking - useScroll and useTransform for smooth reveal
+  - Card container with centered content - Creates elegant frame for gift message
+  - Framer Motion AnimatePresence - Handles smooth crossfade transitions between reveal stages
   - Toggle (music control) - Fixed position with icon swap animation
   
 - **Customizations**: 
-  - Custom scroll container with decorative rods at top/bottom that animate away during scroll
   - Parchment-style card with gradient overlays and border styling
   - SVG scroll icon with animated rotation
   - Particle system using absolute positioning with framer-motion animations
+  - Timed sequential reveal system using React state and setTimeout
   
 - **States**: 
   - Button: Default (elevated shadow) → Hover (lifted, brighter) → Active (pressed down)
   - Music Toggle: Off (muted icon, grayscale) → On (unmuted icon, gold accent)
-  - Scroll Content: Hidden (opacity 0) → Revealing (progressive opacity) → Visible (opacity 1)
-  - Scroll Rods: Attached (visible) → Rolling away (translateY animation) → Gone (off screen)
+  - Reveal Stages: Hidden (not started) → Stage 1 → Stage 2 → Stage 3 → Stage 4 (final with buttons)
   
 - **Icon Selection**: 
   - Scroll (Phosphor Scroll) - Represents pergamino/document
@@ -141,15 +138,14 @@ Animations should feel luxurious and deliberate, with the primary focus on scrol
   
 - **Spacing**: 
   - Container padding: 2rem (mobile) / 3rem (desktop)
-  - Scroll content vertical rhythm: 3rem between sections
+  - Reveal content vertical centering: flexbox with center alignment
   - Button padding: 1.5rem horizontal, 1rem vertical
   - Text line-height: 1.6 for body, 1.2 for headings
   
 - **Mobile**: 
-  - Full-height scroll experience maintained on mobile
-  - Adjusted scroll trigger percentages for smaller screens
+  - Full-height experience maintained on mobile
+  - Same timing for all devices - no adjustments needed
   - Increase touch targets to minimum 44x44px
   - Reduce font sizes proportionally (H1: 36px on mobile)
   - Full-width buttons stacked vertically
   - Reduce particle count (15 vs 30) for performance
-  - Hide scrollbar for cleaner visual experience

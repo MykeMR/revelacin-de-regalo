@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Crown, DownloadSimple, ShareNetwork, SpeakerHigh, SpeakerSlash, Sparkle, Scroll } from '@phosphor-icons/react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { useKV } from '@github/spark/hooks'
 import { toast } from 'sonner'
@@ -15,23 +15,10 @@ interface Particle {
 
 function App() {
   const [isStarted, setIsStarted] = useState(false)
+  const [revealStep, setRevealStep] = useState(0)
   const [musicEnabled, setMusicEnabled] = useKV<boolean>('music-enabled', false)
   const [particles, setParticles] = useState<Particle[]>([])
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [scrollContainer, setScrollContainer] = useState<HTMLDivElement | null>(null)
-  
-  const { scrollYProgress } = useScroll({
-    container: scrollContainer ? { current: scrollContainer } : undefined
-  })
-
-  const topRodY = useTransform(scrollYProgress, [0, 0.1], [0, -100])
-  const bottomRodY = useTransform(scrollYProgress, [0.9, 1], [0, 100])
-  
-  const scrollOpacity1 = useTransform(scrollYProgress, [0, 0.15], [0, 1])
-  const scrollOpacity2 = useTransform(scrollYProgress, [0.15, 0.35], [0, 1])
-  const scrollOpacity3 = useTransform(scrollYProgress, [0.35, 0.55], [0, 1])
-  const scrollOpacity4 = useTransform(scrollYProgress, [0.55, 0.8], [0, 1])
 
   useEffect(() => {
     if (isStarted) {
@@ -57,9 +44,10 @@ function App() {
 
   const startExperience = () => {
     setIsStarted(true)
-    toast.success('¡Desplaza hacia abajo para revelar!', {
-      description: 'Abre el pergamino de los Reyes Magos'
-    })
+    setTimeout(() => setRevealStep(1), 500)
+    setTimeout(() => setRevealStep(2), 3500)
+    setTimeout(() => setRevealStep(3), 7000)
+    setTimeout(() => setRevealStep(4), 10500)
   }
 
   const downloadVoucher = () => {
@@ -220,42 +208,28 @@ function App() {
           </motion.div>
         ) : (
           <motion.div
-            key="scroll"
+            key="reveal"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
-            ref={(el) => {
-              scrollContainerRef.current = el
-              setScrollContainer(el)
-            }}
-            className="h-screen overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
+            className="min-h-screen flex items-center justify-center p-4 md:p-8"
           >
-            <div className="min-h-[400vh] relative">
-              <div className="sticky top-0 h-screen flex items-center justify-center p-4 md:p-8">
-                <div className="relative w-full max-w-3xl">
-                  <motion.div
-                    className="absolute -top-8 left-1/2 -translate-x-1/2 w-full h-12 bg-gradient-to-b from-secondary/80 to-secondary/60 rounded-t-3xl border-t-4 border-x-4 border-secondary shadow-2xl z-20"
-                    style={{ y: topRodY }}
-                  />
-
-                  <motion.div
-                    className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-full h-12 bg-gradient-to-t from-secondary/80 to-secondary/60 rounded-b-3xl border-b-4 border-x-4 border-secondary shadow-2xl z-20"
-                    style={{ y: bottomRodY }}
-                  />
-
-                  <div className="relative bg-card/95 backdrop-blur-sm rounded-3xl shadow-2xl border-4 border-primary/30 overflow-hidden min-h-[70vh] p-8 md:p-12">
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5 pointer-events-none" />
-                    <div className="absolute top-0 right-0 w-40 h-40 bg-accent/10 rounded-full blur-3xl" />
-                    <div className="absolute bottom-0 left-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
-                    
-                    <div className="relative z-10 space-y-12">
-                      <motion.div 
+            <div className="w-full max-w-3xl">
+              <div className="relative bg-card/95 backdrop-blur-sm rounded-3xl shadow-2xl border-4 border-primary/30 overflow-hidden min-h-[70vh] p-8 md:p-12">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-40 h-40 bg-accent/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
+                
+                <div className="relative z-10 flex flex-col items-center justify-center min-h-[60vh] space-y-12">
+                  <AnimatePresence mode="wait">
+                    {revealStep === 1 && (
+                      <motion.div
+                        key="step1"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 1 }}
                         className="text-center space-y-4"
-                        style={{ opacity: scrollOpacity1 }}
                       >
                         <Crown size={60} weight="fill" className="text-accent mx-auto" />
                         <p className="text-2xl md:text-4xl italic text-card-foreground/90 font-light">
@@ -265,10 +239,16 @@ function App() {
                           Noelia Rodríguez Fernández
                         </p>
                       </motion.div>
+                    )}
 
-                      <motion.div 
-                        className="text-center space-y-6 py-12"
-                        style={{ opacity: scrollOpacity2 }}
+                    {revealStep === 2 && (
+                      <motion.div
+                        key="step2"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 1 }}
+                        className="text-center space-y-6"
                       >
                         <h2 className="text-4xl md:text-6xl font-bold text-primary">
                           ¡Feliz Día de Reyes!
@@ -277,10 +257,16 @@ function App() {
                           Un regalo especial para ti:
                         </p>
                       </motion.div>
+                    )}
 
-                      <motion.div 
-                        className="text-center py-8"
-                        style={{ opacity: scrollOpacity3 }}
+                    {revealStep === 3 && (
+                      <motion.div
+                        key="step3"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 1 }}
+                        className="text-center"
                       >
                         <Sparkle size={80} weight="fill" className="text-accent mx-auto mb-6" />
                         <h3 className="text-4xl md:text-6xl font-bold text-primary leading-tight">
@@ -290,10 +276,15 @@ function App() {
                           Inolvidable
                         </h3>
                       </motion.div>
+                    )}
 
-                      <motion.div 
-                        className="space-y-8"
-                        style={{ opacity: scrollOpacity4 }}
+                    {revealStep === 4 && (
+                      <motion.div
+                        key="step4"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
+                        className="w-full space-y-8"
                       >
                         <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl p-6 md:p-8 border border-accent/30">
                           <p className="text-xl md:text-2xl text-card-foreground leading-relaxed mb-6">
@@ -363,8 +354,8 @@ function App() {
                           </Button>
                         </div>
                       </motion.div>
-                    </div>
-                  </div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
@@ -387,12 +378,6 @@ function App() {
           )}
         </motion.button>
       )}
-
-      <style>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </div>
   )
 }
