@@ -309,7 +309,7 @@ function App() {
                       </motion.div>
                     )}
 
-                    {revealStep === 4 && (
+                    {revealStep === 4 && ( 
                       <motion.div
                         key="step4"
                         initial={{ opacity: 0, y: 20 }}
@@ -336,147 +336,144 @@ function App() {
                       <motion.div
                         key="step5"
                         initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ duration: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
                         className="text-center"
-                      >
+                        className="text-center"
+                      > mx-auto mb-6" />
                         <Sparkle size={80} weight="fill" className="text-accent mx-auto mb-6" />
-                        <h3 className="text-4xl md:text-6xl font-bold text-primary leading-tight">
                           Un Día de Spa
-                        </h3>
+                          Un Día de Spa
                         <h3 className="text-4xl md:text-6xl font-bold text-accent mt-2">
-                          Inolvidable
+                        <h3 className="text-4xl md:text-6xl font-bold text-accent mt-2">
                         </h3>
-                      </motion.div>
+                        </h3>
                     )}
-
+                    )}
+                    {revealStep === 6 && (
                     {revealStep === 6 && (
                       <motion.div
                         key="step6"
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
                         transition={{ duration: 1 }}
-                        className="w-full space-y-8"
+                        transition={{ duration: 1 }}
                       >
-                        <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl p-6 md:p-8 border border-accent/30">
+                      >o-br from-accent/10 to-primary/10 rounded-2xl p-6 md:p-8 border border-accent/30">
                           <p className="text-xl md:text-2xl text-card-foreground leading-relaxed mb-6">
-                            Disfruta de un tratamiento exclusivo{' '}
+                          <p className="text-xl md:text-2xl text-card-foreground leading-relaxed mb-6">
                             <span className="font-bold text-primary">"Reset Capilar"</span> by{' '}
                             <span className="italic text-accent">L'Oreal Professionnel®</span> que incluye:
+                            <span className="italic text-accent">L'Oreal Professionnel®</span> que incluye:
                           </p>
-                          
-                          <ul className="space-y-4 text-lg md:text-xl text-card-foreground leading-relaxed">
+                          xl text-card-foreground leading-relaxed">
                             <li className="flex items-start gap-3">
                               <Sparkle size={20} weight="fill" className="text-accent mt-1 flex-shrink-0" />
-                              <span>Diagnóstico capilar personalizado.</span>
+                              <Sparkle size={20} weight="fill" className="text-accent mt-1 flex-shrink-0" />
                             </li>
                             <li className="flex items-start gap-3">
-                              <Sparkle size={20} weight="fill" className="text-accent mt-1 flex-shrink-0" />
+                            <li className="flex items-start gap-3">nk-0" />
                               <span>
-                                Ritual de lavado de lujo con la gama Absolut Repair Molecular
+                              <span>t Repair Molecular
                                 <span className="block pl-6 text-muted-foreground italic mt-1 text-base">
-                                  (Spray pre-tratamiento, Champú, Serum con activos de henné spa.)
+                                <span className="block pl-6 text-muted-foreground italic mt-1 text-base">
                                 </span>
-                              </span>
+                                </span>
                             </li>
-                            <li className="flex items-start gap-3">
+                            </li>lassName="flex items-start gap-3">
                               <Sparkle size={20} weight="fill" className="text-accent mt-1 flex-shrink-0" />
-                              <span>Relajante masaje craneal y capilar con diadema de henna-spa.</span>
+                              <Sparkle size={20} weight="fill" className="text-accent mt-1 flex-shrink-0" />
                             </li>
                             <li className="flex items-start gap-3">
                               <Sparkle size={20} weight="fill" className="text-accent mt-1 flex-shrink-0" />
                               <span>Secado profesional con Absolut Repair Molecular Mascarilla Leave in.</span>
+                              <span>Secado profesional con Absolut Repair Molecular Mascarilla Leave in.</span>
                             </li>
-                          </ul>
 
+                        <div className="mt-8 pt-6 border-t border-accent/30 text-center">
                           <div className="mt-8 pt-6 border-t border-accent/30 text-center">
                             <p className="text-xl md:text-2xl font-bold text-primary font-sans">
                               Duración total: 60 minutos
                             </p>
                           </div>
-                        </div>
 
+t-6 space-y-3">
                         <div className="text-center pt-6 space-y-3">
-                          <p className="text-2xl md:text-3xl italic text-card-foreground">
                             Con todo el cariño,
-                          </p>
+                            Con todo el cariño,
                           <p className="text-3xl md:text-4xl font-bold text-primary flex items-center justify-center gap-3">
                             <Crown size={36} weight="fill" className="text-accent" />
                             Los Reyes Magos
-                            <Crown size={36} weight="fill" className="text-accent" />
+                            Los Reyes Magos
+                          </p>
                           </p>
                         </div>
-
                         <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                          <Button
+                        <div className="flex flex-col sm:flex-row gap-4 mt-8">
                             onClick={downloadVoucher}
                             className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-sans font-bold text-lg py-6 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
-                            size="lg"
+                            className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-sans font-bold text-lg py-6 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
                           >
+                          >="bold" className="mr-2" />
                             <DownloadSimple size={24} weight="bold" className="mr-2" />
-                            Descargar Vale
                           </Button>
                           <Button
-                            onClick={shareWhatsApp}
+                          <Button
                             className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground font-sans font-bold text-lg py-6 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
                             size="lg"
-                          >
+                            size="lg"
+                            <ShareNetwork size={24} weight="bold" className="mr-2" />
                             <ShareNetwork size={24} weight="bold" className="mr-2" />
                             Compartir
-                          </Button>
                         </div>
-                      </motion.div>
+                        </div>
                     )}
                   </AnimatePresence>
-                </div>
+                  </AnimatePresence>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
+      </AnimatePresence>
+      {isStarted && (
       {isStarted && (
         <>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
             transition={{ delay: 1, duration: 0.5 }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 z-50"
+            transition={{ delay: 1, duration: 0.4 }}ter gap-4 z-50"
           >
-            <Button
-              onClick={goBack}
+            className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-accent-foreground/20"
+          >
               disabled={revealStep === 1}
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl hover:scale-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-sans font-bold px-6"
+            ) : (
             >
-              <ArrowLeft size={24} weight="bold" className="mr-2" />
+            )}
               Anterior
             </Button>
-
+          <motion.button
             <Button
-              onClick={goForward}
               disabled={revealStep === 6}
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl hover:scale-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-sans font-bold px-6"
-            >
+            transition={{ delay: 1.2, duration: 0.4 }}
+            onClick={goBack}0 text-primary-foreground shadow-2xl hover:scale-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-sans font-bold px-6"
+            disabled={revealStep === 1 && isStarted}
               Siguiente
               <ArrowRight size={24} weight="bold" className="ml-2" />
             </Button>
-          </motion.div>
+          </motion.button>
 
           <motion.button
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2, duration: 0.4 }}
+            transition={{ delay: 1.4, duration: 0.4 }}
             onClick={resetExperience}
             className="fixed top-8 right-8 w-14 h-14 rounded-full bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-secondary-foreground/20"
             title="Reiniciar"
           >
-            <ArrowsClockwise size={26} weight="bold" />
+            <ArrowRight size={28} weight="bold" />d" />
           </motion.button>
 
-          <motion.button
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.4, duration: 0.4 }}
@@ -492,6 +489,7 @@ function App() {
           </motion.button>
         </>
       )}
+export default App
     </div>
   )
 }
