@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Crown, DownloadSimple, ShareNetwork, SpeakerHigh, SpeakerSlash, Sparkle, Scroll } from '@phosphor-icons/react'
+import { Crown, DownloadSimple, ShareNetwork, SpeakerHigh, SpeakerSlash, Sparkle, Scroll, ArrowLeft } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { useKV } from '@github/spark/hooks'
@@ -48,6 +48,21 @@ function App() {
     setTimeout(() => setRevealStep(2), 3500)
     setTimeout(() => setRevealStep(3), 7000)
     setTimeout(() => setRevealStep(4), 10500)
+    setTimeout(() => setRevealStep(5), 14000)
+  }
+
+  const goBack = () => {
+    if (revealStep > 0) {
+      setRevealStep(prev => prev - 1)
+    } else if (isStarted) {
+      setIsStarted(false)
+      setRevealStep(0)
+    }
+  }
+
+  const resetExperience = () => {
+    setIsStarted(false)
+    setRevealStep(0)
   }
 
   const downloadVoucher = () => {
@@ -89,7 +104,10 @@ function App() {
     ctx.fillStyle = '#4A3728'
     ctx.font = '36px "Cormorant Garamond"'
     const services = [
-      'Disfruta de un tratamiento exclusivo "Reset Capilar" by',
+      'Los Reyes se han dado cuenta de que tienes un problema de calvicie',
+      'y te queda poco para quedarte calva...',
+      '',
+      'Por eso, disfruta de un tratamiento exclusivo "Reset Capilar" by',
       'L\'Oreal Professionnel® que incluye:',
       '',
       'Diagnóstico capilar personalizado.',
@@ -281,6 +299,26 @@ function App() {
                     {revealStep === 4 && (
                       <motion.div
                         key="step4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 1 }}
+                        className="text-center space-y-6"
+                      >
+                        <p className="text-2xl md:text-4xl text-card-foreground italic leading-relaxed">
+                          Los Reyes se han dado cuenta de que tienes un problema de{' '}
+                          <span className="font-bold text-destructive">calvicie</span>
+                        </p>
+                        <p className="text-2xl md:text-4xl text-card-foreground italic">
+                          y te queda poco para quedarte{' '}
+                          <span className="font-bold text-destructive">calva</span>...
+                        </p>
+                      </motion.div>
+                    )}
+
+                    {revealStep === 5 && (
+                      <motion.div
+                        key="step5"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1 }}
@@ -288,7 +326,7 @@ function App() {
                       >
                         <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl p-6 md:p-8 border border-accent/30">
                           <p className="text-xl md:text-2xl text-card-foreground leading-relaxed mb-6">
-                            Disfruta de un tratamiento exclusivo{' '}
+                            Por eso, disfruta de un tratamiento exclusivo{' '}
                             <span className="font-bold text-primary">"Reset Capilar"</span> by{' '}
                             <span className="italic text-accent">L'Oreal Professionnel®</span> que incluye:
                           </p>
@@ -364,19 +402,31 @@ function App() {
       </AnimatePresence>
 
       {isStarted && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.4 }}
-          onClick={toggleMusic}
-          className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-accent-foreground/20"
-        >
-          {musicEnabled ? (
-            <SpeakerHigh size={28} weight="bold" />
-          ) : (
-            <SpeakerSlash size={28} weight="bold" />
-          )}
-        </motion.button>
+        <>
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1, duration: 0.4 }}
+            onClick={toggleMusic}
+            className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-accent-foreground/20"
+          >
+            {musicEnabled ? (
+              <SpeakerHigh size={28} weight="bold" />
+            ) : (
+              <SpeakerSlash size={28} weight="bold" />
+            )}
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.2, duration: 0.4 }}
+            onClick={goBack}
+            className="fixed bottom-8 left-8 w-16 h-16 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-primary-foreground/20"
+          >
+            <ArrowLeft size={28} weight="bold" />
+          </motion.button>
+        </>
       )}
     </div>
   )
