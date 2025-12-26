@@ -292,19 +292,20 @@ function App() {
                     {revealStep === 3 && (
                       <motion.div
                         key="step3"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 1 }}
-                        className="text-center"
+                        className="text-center space-y-6"
                       >
-                        <Sparkle size={80} weight="fill" className="text-accent mx-auto mb-6" />
-                        <h3 className="text-4xl md:text-6xl font-bold text-primary leading-tight">
-                          Un Día de Spa
-                        </h3>
-                        <h3 className="text-4xl md:text-6xl font-bold text-accent mt-2">
-                          Inolvidable
-                        </h3>
+                        <p className="text-2xl md:text-4xl text-card-foreground italic leading-relaxed">
+                          Los Reyes se han dado cuenta de que tienes un problema de{' '}
+                          <span className="font-bold text-destructive">calvicie</span>
+                        </p>
+                        <p className="text-2xl md:text-4xl text-card-foreground italic">
+                          y te queda poco para quedarte{' '}
+                          <span className="font-bold text-destructive">calva</span>...
+                        </p>
                       </motion.div>
                     )}
 
@@ -334,20 +335,19 @@ function App() {
                     {revealStep === 5 && (
                       <motion.div
                         key="step5"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
                         transition={{ duration: 1 }}
-                        className="text-center space-y-6"
+                        className="text-center"
                       >
-                        <p className="text-2xl md:text-4xl text-card-foreground italic leading-relaxed">
-                          Los Reyes se han dado cuenta de que tienes un problema de{' '}
-                          <span className="font-bold text-destructive">calvicie</span>
-                        </p>
-                        <p className="text-2xl md:text-4xl text-card-foreground italic">
-                          y te queda poco para quedarte{' '}
-                          <span className="font-bold text-destructive">calva</span>...
-                        </p>
+                        <Sparkle size={80} weight="fill" className="text-accent mx-auto mb-6" />
+                        <h3 className="text-4xl md:text-6xl font-bold text-primary leading-tight">
+                          Un Día de Spa
+                        </h3>
+                        <h3 className="text-4xl md:text-6xl font-bold text-accent mt-2">
+                          Inolvidable
+                        </h3>
                       </motion.div>
                     )}
 
@@ -438,50 +438,57 @@ function App() {
 
       {isStarted && (
         <>
-          <motion.button
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1, duration: 0.4 }}
-            onClick={toggleMusic}
-            className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-accent-foreground/20"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.5 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 z-50"
           >
-            {musicEnabled ? (
-              <SpeakerHigh size={28} weight="bold" />
-            ) : (
-              <SpeakerSlash size={28} weight="bold" />
-            )}
-          </motion.button>
+            <Button
+              onClick={goBack}
+              disabled={revealStep === 1}
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl hover:scale-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-sans font-bold px-6"
+            >
+              <ArrowLeft size={24} weight="bold" className="mr-2" />
+              Anterior
+            </Button>
+
+            <Button
+              onClick={goForward}
+              disabled={revealStep === 6}
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl hover:scale-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-sans font-bold px-6"
+            >
+              Siguiente
+              <ArrowRight size={24} weight="bold" className="ml-2" />
+            </Button>
+          </motion.div>
 
           <motion.button
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2, duration: 0.4 }}
-            onClick={goBack}
-            disabled={revealStep === 1 && isStarted}
-            className="fixed bottom-8 left-8 w-16 h-16 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-primary-foreground/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            onClick={resetExperience}
+            className="fixed top-8 right-8 w-14 h-14 rounded-full bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-secondary-foreground/20"
+            title="Reiniciar"
           >
-            <ArrowLeft size={28} weight="bold" />
+            <ArrowsClockwise size={26} weight="bold" />
           </motion.button>
 
           <motion.button
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.4, duration: 0.4 }}
-            onClick={goForward}
-            disabled={revealStep === 6}
-            className="fixed bottom-8 left-28 w-16 h-16 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-primary-foreground/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            onClick={toggleMusic}
+            className="fixed top-8 right-28 w-14 h-14 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-accent-foreground/20"
+            title={musicEnabled ? "Desactivar música" : "Activar música"}
           >
-            <ArrowRight size={28} weight="bold" />
-          </motion.button>
-
-          <motion.button
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.6, duration: 0.4 }}
-            onClick={resetExperience}
-            className="fixed top-8 right-8 w-16 h-16 rounded-full bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-50 border-2 border-secondary-foreground/20"
-          >
-            <ArrowsClockwise size={28} weight="bold" />
+            {musicEnabled ? (
+              <SpeakerHigh size={26} weight="bold" />
+            ) : (
+              <SpeakerSlash size={26} weight="bold" />
+            )}
           </motion.button>
         </>
       )}
