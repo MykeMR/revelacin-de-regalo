@@ -46,9 +46,10 @@ function App() {
     setIsStarted(true)
     setTimeout(() => setRevealStep(1), 500)
     setTimeout(() => setRevealStep(2), 3500)
-    setTimeout(() => setRevealStep(3), 7000)
-    setTimeout(() => setRevealStep(4), 10500)
-    setTimeout(() => setRevealStep(5), 14000)
+    setTimeout(() => setRevealStep(3), 6000)
+    setTimeout(() => setRevealStep(4), 9000)
+    setTimeout(() => setRevealStep(5), 12000)
+    setTimeout(() => setRevealStep(6), 15000)
   }
 
   const goBack = () => {
@@ -73,7 +74,7 @@ function App() {
     if (!ctx) return
 
     canvas.width = 1200
-    canvas.height = 1800
+    canvas.height = 2100
 
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
     gradient.addColorStop(0, '#F5E6D3')
@@ -102,8 +103,18 @@ function App() {
     ctx.fillText('Un Día de Spa Inolvidable', canvas.width / 2, 520)
 
     ctx.fillStyle = '#4A3728'
-    ctx.font = '36px "Cormorant Garamond"'
+    ctx.font = '34px "Cormorant Garamond"'
     const services = [
+      'Querida Noelia,',
+      '',
+      'Hemos observado con atención tus deseos de cuidado y',
+      'renovación capilar. Sabemos lo importante que es para ti',
+      'mantener tu cabello saludable y radiante.',
+      '',
+      'Por ello, hemos seleccionado especialmente para ti un',
+      'tratamiento profesional que te ayudará a revitalizar',
+      'y fortalecer tu melena.',
+      '',
       'Los Reyes se han dado cuenta de que tienes un problema de calvicie',
       'y te queda poco para quedarte calva...',
       '',
@@ -122,7 +133,7 @@ function App() {
     let yPos = 620
     services.forEach(line => {
       ctx.fillText(line, canvas.width / 2, yPos)
-      yPos += 50
+      yPos += 45
     })
 
     ctx.font = 'italic 44px "Cormorant Garamond"'
@@ -303,6 +314,29 @@ function App() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 1 }}
+                        className="text-center space-y-8 max-w-2xl"
+                      >
+                        <p className="text-xl md:text-3xl text-card-foreground leading-relaxed">
+                          Querida Noelia,
+                        </p>
+                        <p className="text-lg md:text-2xl text-card-foreground leading-relaxed">
+                          Hemos observado con atención tus deseos de cuidado y renovación capilar. 
+                          Sabemos lo importante que es para ti mantener tu cabello saludable y radiante.
+                        </p>
+                        <p className="text-lg md:text-2xl text-card-foreground leading-relaxed">
+                          Por ello, hemos seleccionado especialmente para ti un tratamiento profesional 
+                          que te ayudará a revitalizar y fortalecer tu melena.
+                        </p>
+                      </motion.div>
+                    )}
+
+                    {revealStep === 5 && (
+                      <motion.div
+                        key="step5"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 1 }}
                         className="text-center space-y-6"
                       >
                         <p className="text-2xl md:text-4xl text-card-foreground italic leading-relaxed">
@@ -316,9 +350,9 @@ function App() {
                       </motion.div>
                     )}
 
-                    {revealStep === 5 && (
+                    {revealStep === 6 && (
                       <motion.div
-                        key="step5"
+                        key="step6"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1 }}
